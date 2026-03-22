@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autoplay música</title>
+
+<style>
+body {
+    margin: 0;
+    background: black;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* IMAGEN */
+.img {
+    width: 250px;
+    opacity: 0;
+    transform: translateY(150px) scale(0.8);
+    animation: aparecer 2s ease forwards;
+}
+
+@keyframes aparecer {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* TEXTO DE INICIO */
+.msg {
+    position: absolute;
+    top: 20px;
+    color: white;
+    opacity: 0.7;
+}
+
+/* TEXTO PRINCIPAL */
+.texto {
+    position: absolute;
+    top: 60px;
+    color: #00ffff;
+    font-size: 24px;
+    text-align: center;
+    width: 80%;
+    text-shadow: 
+        0 0 5px #00ffff,
+        0 0 10px #00ffff,
+        0 0 20px #00ffff;
+    transition: color 1s, text-shadow 1s;
+}
+
+/* CAMBIO A ROJO */
+.rojo {
+    color: red;
+    text-shadow:
+        0 0 5px red,
+        0 0 10px red,
+        0 0 20px red;
+}
+</style>
+</head>
+
+<body>
+
+<div class="msg">Toca la pantalla 💛</div>
+
+<!-- TEXTO ANIMADO -->
+<div class="texto" id="texto"></div>
+
+<img src="1.png" class="img">
+
+<audio id="music" src="2.mpeg" autoplay loop muted></audio>
+
+<script>
+const audio = document.getElementById("music");
+const textoElemento = document.getElementById("texto");
+
+const mensaje = "Más hermosa que las flores eres y siempre seras tú, eres alguien que siempre se esfuerza dia dia y admiro mucho eso de ti te quiero muchoo Madee ❤️";
+
+let i = 0;
+let yaInicio = false;
+
+// función escribir
+function escribir() {
+    if (i < mensaje.length) {
+        textoElemento.innerHTML += mensaje.charAt(i);
+        i++;
+        setTimeout(escribir, 50);
+    } else {
+        setTimeout(() => {
+            textoElemento.classList.add("rojo");
+        }, 500);
+    }
+}
+
+// cuando toca pantalla
+document.body.addEventListener("click", () => {
+    audio.muted = false;
+    audio.play();
+
+    // evitar que se repita varias veces
+    if (!yaInicio) {
+        escribir();
+        yaInicio = true;
+    }
+});
+</script>
+
+</body>
+</html>
